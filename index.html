@@ -9,22 +9,42 @@
   <meta name="author" content="tixlegeek">
 
   <style>
+  html, body {
+
+  }
+  * {
+    box-sizing: border-box;
+  }
   .rangeCombo {
-    clear:both;
     border: 1px solid #888;
     border-radius: 5px;
     box-sizing: border-box;
-    width: 450px;
+    width: 50%;
     padding: 5px;
-    margin:5px;
+
     display: inline-block;
   }
 
-  .rangeCombo input[type=checkbox]
-  {
-    border: 2px solid #fff;
+  .inputCombo {
+    line-height: 35px;
+    vertical-align: middle;
   }
 
+  .inputCombo  input[type=text]{
+    margin-left: 10px;
+    float: right;
+    width: 50px;
+  }
+  .inputCombo input[type=range]
+  {
+    float: right;
+    width: 200px;
+  }
+  .inputCombo input[type=checkbox] {
+    display: inline-block;
+    float: right;
+    width: 30px;
+  }
   #video {
     padding: 5px;
     width: 1024px;
@@ -58,7 +78,6 @@
     clear:both;
     border: 1px solid #888;
     border-radius: 5px;
-    box-sizing: border-box;
     margin: auto;
   }
   </style>
@@ -90,35 +109,93 @@
     </canvas>
   </div>
   <div id="controls">
-    <div class="rangeCombo" >
-      <label for="globalrate">Animation rate:</label>
-      <input type="range" id="globalrate" name="globalrate" value="0.05" min="-1" max="1" step="0.05"></input>
-    </div>
-    <div class="rangeCombo" >
-      <label for="drawNullPattern">Draw null patterns:</label>
-      <input type="checkbox" id="drawNullPattern" name="sdrawNullPattern" >
-    </div>
+    <div class="rangeCombo" id="generalControls">
 
+    </div>
   </div>
   <script>
   var intRand = function(i){
     return Math.floor(Math.random() * Math.floor(i));
   }
   var globaltimer=0;
-  var globalrate=0.05;
-  document.getElementById("globalrate").addEventListener("input", function(e){
-    globalrate = this.value*1;
-  });
-
+  var globalrate=0.01;
   var drawNullPattern = false;
-  document.getElementById("drawNullPattern").checked=drawNullPattern;
-  document.getElementById("drawNullPattern").addEventListener("change", function(e){
-    drawNullPattern = this.checked;
-  });
+
+
   var canvas =  document.getElementById('canvas');
 
   var WIDTH = canvas.width;
   var HEIGHT = canvas.height;
+
+
+  var control = function(parent=document.body, type="range", def=0, args={}, name="control", text="Control:", eventId, callback)
+  {
+    this.type = type;
+    this.parent = parent;
+    this.args = args;
+    this.name = name;
+    this.text = text;
+    this.eventId = eventId;
+    this.callback = callback;
+    this.value=def;
+    this.input = document.createElement("INPUT");
+    this.mon = document.createElement("INPUT");
+    this.div=document.createElement("DIV");
+    this.label=document.createElement("LABEL");
+
+    this.changed = function(){
+      if(this.type=="checkbox")
+      {
+        this.value = this.input.checked?"true":"false";
+        this.mon.value = this.value;
+      }
+      else
+      {
+        this.value = this.input.value;
+        this.mon.value = this.value;
+      }
+    };
+    this.draw = function(){
+      this.div.classList.add("inputCombo");
+      this.mon.setAttribute("type", "text");
+      this.mon.setAttribute("name", this.name+"_mon");
+      this.mon.value = this.value;
+      this.mon.classList.add("mon_input");
+
+      this.label.setAttribute("for", this.name);
+      this.label.innerHTML = this.text;
+
+      switch (this.type) {
+        case "range":
+        this.input.setAttribute("type", "range");
+        this.input.setAttribute("name", this.name);
+        this.input.setAttribute("max", this.args.max || 100);
+        this.input.setAttribute("min", this.args.min || 0);
+        this.input.setAttribute("step", this.args.step || 1);
+        this.input.value = this.value;
+        this.input.addEventListener(this.eventId, callback.bind(this));
+        this.div.appendChild(this.label);
+        this.div.appendChild(this.mon);
+        this.div.appendChild(this.input);
+        break;
+        case "checkbox":
+        this.input.setAttribute("type", "checkbox");
+        this.input.setAttribute("name", this.name);
+        this.input.checked = (this.value==false)?false:true;
+        this.input.addEventListener(this.eventId, callback.bind(this));
+        this.div.appendChild(this.label);
+        this.div.appendChild(this.input);
+        break;
+        default:
+
+      }
+      //this.mon.addEventListener("change",function(e){ this.value=this.mon.value; this.changed();}.bind(this));
+      this.parent.appendChild(this.div);
+    }
+
+    this.draw();
+    return this;
+  };
   var emmitter = function(x,y,step, phase=0, f=100, a=50, active=false){
     this.x = x;
     this.y = y;
@@ -127,7 +204,7 @@
     this.a = a;
     this.phase = phase;
     this.step = step;
-    this.d = 0;
+        this.d = 0;
 
     this.animate = false;
     this.offset = 0;
@@ -146,95 +223,20 @@
     this.drawControls = function(){
       var self=this;
       this.div.classList.add("rangeCombo");
-
-      var checkedlabel = document.createElement("LABEL");
-      checkedlabel.setAttribute("for", "active");
-      checkedlabel.innerHTML="Active";
-      this.checkedinput.classList.add("active");
-      this.checkedinput.setAttribute("type", "checkbox");
-      this.checkedinput.setAttribute("name", "check");
-      this.checkedinput.setAttribute("max", 100);
-      this.checkedinput.setAttribute("min", 0);
-      this.checkedinput.setAttribute("step", 1);
-      this.checkedinput.checked = this.checked;
-      this.div.appendChild(checkedlabel);
-      this.div.appendChild(this.checkedinput);
-      this.checkedinput.addEventListener("click", function(e){
-        self.checked = this.checked;
-      });
-
-      var animatelabel = document.createElement("LABEL");
-      animatelabel.setAttribute("for", "animate");
-      animatelabel.innerHTML="Animate";
-      this.animateinput.classList.add("ampl_range");
-      this.animateinput.setAttribute("type", "checkbox");
-      this.animateinput.setAttribute("name", "animate");
-      this.animateinput.setAttribute("max", 100);
-      this.animateinput.setAttribute("min", 0);
-      this.animateinput.setAttribute("step", 1);
-      this.animateinput.checked = this.animate;
-      this.div.appendChild(animatelabel);
-      this.div.appendChild(this.animateinput);
-      this.animateinput.addEventListener("click", function(e){
-        self.animate = this.checked;
-      });
-
-      var alabel = document.createElement("LABEL");
-      alabel.setAttribute("for", "ampl");
-      alabel.innerHTML="Power:";
-      this.ainput.classList.add("ampl_range");
-      this.ainput.setAttribute("type", "range");
-      this.ainput.setAttribute("namefalse", "ampl");
-      this.ainput.setAttribute("max", 100);
-      this.ainput.setAttribute("min", 0);
-      this.ainput.setAttribute("step", 1);
-      this.ainput.value = this.a;
-      this.adiv.appendChild(alabel);
-      this.adiv.appendChild(this.ainput);
-      this.div.appendChild(this.adiv);
-      this.ainput.addEventListener("input", function(e){
-        self.a = this.value*1;
-      });
-
-      var flabel = document.createElement("LABEL");
-      flabel.setAttribute("for", "freq");
-      flabel.innerHTML="Frequency:";
-      this.finput.classList.add("freq_range");
-      this.finput.setAttribute("type", "range");
-      this.finput.setAttribute("name", "freq");
-      this.finput.setAttribute("max", 300);
-      this.finput.setAttribute("min", 0);
-      this.finput.setAttribute("step", 1);
-      this.finput.value = this.f;
-      this.fdiv.appendChild(flabel);
-      this.fdiv.appendChild(this.finput);
-      this.div.appendChild(this.fdiv);
-      this.finput.addEventListener("input", function(e){
-        self.f = this.value*1;
-      });
-
-      var plabel = document.createElement("LABEL");
-      plabel.setAttribute("for", "phas");
-      plabel.innerHTML="Phase:";
-      this.pinput.classList.add("phas_range");
-      this.pinput.setAttribute("type", "range");
-      this.pinput.setAttribute("name", "phas");
-      this.pinput.setAttribute("max", 2*Math.PI*100);
-      this.pinput.setAttribute("min", 0);
-      this.pinput.setAttribute("step", 1);
-      this.pinput.value = this.p;
-      this.pdiv.appendChild(plabel);
-      this.pdiv.appendChild(this.pinput);
-      this.div.appendChild(this.pdiv);
-
+      new control(this.div,"checkbox",this.checked, {},"active","Activate :", "click",function(e){self.checked = this.value = this.input.checked;this.changed();});
+      new control(this.div,"checkbox",this.animate, {},"animate","Animated :", "click",function(e){self.animate = this.value = this.input.checked;this.changed();});
+      new control(this.div,"range",this.f, {max:500, min:1, step:0.5},"freq","Frequency :", "input",function(e){self.f = this.input.value * 1;this.changed();});
+      new control(this.div,"range",this.phase, {max:2*Math.PI*100, min:0, step:0.05},"phas","Phase :", "input",function(e){self.phase = this.input.value * 1;this.changed();});
+      new control(this.div,"range",this.a, {max:100, min:0, step:1},"ampl","Amplification :", "input",function(e){self.a = this.input.value * 1;this.changed();});
       document.getElementById("controls").appendChild(this.div);
-      this.pinput.addEventListener("input", function(e){
-        self.phase = this.value*1;
-      });
     }
+
     this.drawControls();
     return this;
   }
+
+  new control(document.getElementById("generalControls"),"range",globalrate, { 'max':1,'min':-1, 'step':.01},"globalrate","Animation Rate:", "input",function(e){globalrate = this.value*1;this.changed();});
+  new control(document.getElementById("generalControls"),"checkbox",drawNullPattern, {},"animate","Animated :", "click",function(e){drawNullPattern = this.value = this.input.checked;this.changed();});
 
   var emmitters = [
     new emmitter(intRand(WIDTH),intRand(HEIGHT), function(){}, 0,200,15, true),
@@ -341,7 +343,8 @@
     data[i+2]= c;
   }
   var cnv = new CANVASOBJ(canvas);
+
   cnv.render();
-  </script>
+</script>
 </body>
 </html>

@@ -10,13 +10,15 @@ Copyright (c) 2020 Tixlegeek (MIT, see LICENSE ) - You can do whatever you want 
 
 ---
 
-![image01](README.assets/image01.png)
+See online demo [Here](https://tixlegeek.io/interference/)! 
 
-![image02](README.assets/image02.png)
+![tree emitter interference](README.assets/image01.png)
 
-![image03](README.assets/image03.png)
+![four emitter interference](README.assets/image02.png)
 
+![two emitters interference](README.assets/image03.png)
 
+![drawing null pattern](README.assets/image04.png)
 
 ## About the code
 
@@ -38,7 +40,7 @@ This is not a physics-accurate simulation. The results are approximated followin
   
   (Sorry, github's Latex renderer is non-existent )
   $$
-  \sum_{E=1}^{nE}sin{Ed_i\times Ef_i - Ep_i}\times \dfrac{1}{Ed_i\times Ea_i}
+  \sum_{E=1}^{nE}sin({Ed_i\times Ef_i - Ep_i})\times \dfrac{1}{Ed_i\times Ea_i}
   $$
   ​	with:
   $$
