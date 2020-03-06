@@ -35,17 +35,18 @@ This is not a physics-accurate simulation. The results are approximated followin
   All those property are only quantitative.
 
 * At each point of the graph, the signal is approximated using:
-  $$
-  \sum_{E=1}^{nE}sin{Ed_i\times Ef_i - Ep_i}\times \dfrac{1}{Ed_i\times Ea_i}
-  $$
-  ​	with:
-  $$
-  Edi = \sqrt{(x_i-Ex_i)^2+(y_i-Ey_i)^2)}
-  $$
+
+![formula](https://render.githubusercontent.com/render/math?math=\sum_{E=1}^{nE}sin{Ed_i\times Ef_i - Ep_i}\times \dfrac{1}{Ed_i\times Ea_i})
+
+* ​	with:
   
-
+* ![formula](https://render.githubusercontent.com/render/math?math=Edi = \sqrt{(x_i-Ex_i)^2+(y_i-Ey_i)^2)})
+  
+  
+  
+  
   These are bad mathematical transcription of the "sum of each  emitter's signal amplitude at given point ($$i$$)
-
+  
   whatever, because, the code is so simple and dirty you could have found out yourself.
 
 In some words: You cannot simulate refraction/diffraction/etc. It's mostly just a toy.
