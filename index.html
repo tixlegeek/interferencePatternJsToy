@@ -120,7 +120,7 @@
   var globaltimer=0;
   var globalrate=0.01;
   var drawNullPattern = false;
-
+  var nullPatternWidth = 2;
 
   var canvas =  document.getElementById('canvas');
 
@@ -236,11 +236,14 @@
   }
 
   new control(document.getElementById("generalControls"),"range",globalrate, { 'max':1,'min':-1, 'step':.01},"globalrate","Animation Rate:", "input",function(e){globalrate = this.value*1;this.changed();});
-  new control(document.getElementById("generalControls"),"checkbox",drawNullPattern, {},"animate","Animated :", "click",function(e){drawNullPattern = this.value = this.input.checked;this.changed();});
+  new control(document.getElementById("generalControls"),"checkbox",drawNullPattern, {},"drawNullPattern","Draw Null Pattern :", "click",function(e){drawNullPattern = this.value = this.input.checked;this.changed();});
+  new control(document.getElementById("generalControls"),"range",nullPatternWidth, { 'max':20,'min':1, 'step':.01},"drawNullPatternTrigz","Null Pattern width :", "input",function(e){nullPatternWidth = this.value*1;this.changed();});
 
   var emmitters = [
     new emmitter(intRand(WIDTH),intRand(HEIGHT), function(){}, 0,200,15, true),
     new emmitter(intRand(WIDTH),intRand(HEIGHT), function(){}, 0,200,15, true),
+    new emmitter(intRand(WIDTH),intRand(HEIGHT), function(){}, 0,200,15+1),
+    new emmitter(intRand(WIDTH),intRand(HEIGHT), function(){}, 0,200,15+1),
     new emmitter(intRand(WIDTH),intRand(HEIGHT), function(){}, 0,200,15+1),
     new emmitter(intRand(WIDTH),intRand(HEIGHT), function(){}, 0,200,15+1),
   ];
@@ -339,7 +342,7 @@
     }
     c = (c*127)+127;
     data[i+0]= c;
-    data[i+1]= (c>125&&c<129&&drawNullPattern)?255:c;
+    data[i+1]= (c>127-nullPatternWidth&&c<127+nullPatternWidth&&drawNullPattern)?255:c;
     data[i+2]= c;
   }
   var cnv = new CANVASOBJ(canvas);
