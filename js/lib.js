@@ -60,8 +60,8 @@
         this.input.value = this.value;
         this.input.addEventListener(this.eventId, callback.bind(this));
         this.div.appendChild(this.label);
-        this.div.appendChild(this.mon);
         this.div.appendChild(this.input);
+        this.div.appendChild(this.mon);
         break;
         case "checkbox":
         this.input.setAttribute("type", "checkbox");
