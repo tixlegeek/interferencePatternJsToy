@@ -83,8 +83,7 @@
         this.input.addEventListener(this.eventId, callback.bind(this));
         this.div.appendChild(this.label);
         this.div.appendChild(this.input);
-      
-      this.switchVisibility(this);  
+        this.switchVisibility(this);  
         break;
         default:
 
@@ -218,7 +217,6 @@
         }
       }
       globaltimer+=globalrate;
-      //console.log(globaltimer);
       requestAnimationFrame(this.render.bind(this));
     }
     return this;

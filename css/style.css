@@ -16,8 +16,6 @@ body {
 #generalControls {
   width: 50%;
   margin: 0 0 10px 25%;
-
-  transition: all .2s ease-in-out;
 }
 
 
@@ -48,32 +46,39 @@ body {
   margin-bottom: 1%;
   padding: 15px;
   display: inline-block;
-  transition: all 10s linear;
-}
-.rangeCombo * {
   transition: all .2s linear;
 }
 
+.rangeCombo:not(.active) {
+  max-height: 50px;
+}
+
+#generalControls.rangeCombo {
+  max-height: none;
+}
 
 .rangeCombo > .inputCombo {
   max-height: 0;
   opacity: 0;
+  overflow: hidden;
+  will-change: transform;
+  transition: max-height .2s linear;
 }
 
 
 .rangeCombo > .inputCombo:first-child,
 .rangeCombo:first-child > .inputCombo {
-  max-height: 30px;
+  max-height: 32px;
   opacity: 1;
 }
 
 .rangeCombo.active > .inputCombo {
-  max-height: 30px;
+  max-height: 32px;
   opacity: 1;
 }
 
 .rangeCombo.active > .inputCombo:first-child {
-  height: auto;
+  max-height: 32px;
 }
 
 .rangeCombo:nth-child(2n+1) {
@@ -82,7 +87,6 @@ body {
 .inputCombo {
   display: flex;
   justify-content: space-between;
-  height: 30px;
 }
 
 .inputCombo label,
@@ -105,6 +109,7 @@ body {
   height: 18px;
   color: white;
   background: #2c3e50;
+  z-index: 10;
 }
 
 .inputCombo input[type=checkbox]:checked:after {
