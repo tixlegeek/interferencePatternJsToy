@@ -13,35 +13,37 @@
 </head>
 
 <body>
-  <div id="title">
-    <h1>Simple interference pattern visualisation tool</h1>
-    <h2>About:</h2>
-    <p>
-      Developped on the 03-05-2020, by <a href="https://twitter.com/tixlegeek/">@tixlegeek</a> (aka <a href="https://twitter.com/captnlarzuk/">@captnlarzuk</a> ).
-    </p>
-    <p>
-      Simple and dirty JS toy which lets you play with interference patterns.
+  <div id="canvas_wrapper">
+    <div id="infos" class="minimize">
+      <h2>About:</h2>
+      <p>
+        Developped on the 03-05-2020, by <a href="https://twitter.com/tixlegeek/">@tixlegeek</a> (aka <a href="https://twitter.com/captnlarzuk/">@captnlarzuk</a> ).
+      </p>
+      <p>
+        Simple and dirty JS toy which lets you play with interference patterns.
 
-      This code is absolutely not finished, or cleaned up, and i got no time today for that.
-    </p>
-    <h2>About physics:</h2>
-    <p>
-      I can't say it's a physics-accurate representation. I made that for quick testings, but, i guess i now have to think about the "simulation" side. For example, you can't yet simulate reverberation, diffraction, etc... just isotropic emmiters, with a Frequency, a Phase, and an Amplitude (which you can tweak). You also can try to move them around, but, beware, the selector is a ring-buffer, so using it is a pain in the ass.
-    </p>
-    <p>
-      Yes, UI is aweful. Have fun!
-    </p>
-  </div>
-  <div id="video">
-    <p>Selection and displacement of emmitters is a rotating buffer. Click and drag to experience the true bontempi UI.</p>
-    <canvas id="canvas" width="320" height="200" >
-    </canvas>
-  </div>
-  <div id="controls">
-    <div class="rangeCombo" id="generalControls">
-
+        This code is absolutely not finished, or cleaned up, any help would be much appreciated :) 
+      </p>
+      <h2>About physics:</h2>
+      <p>
+        I can't say it's a physics-accurate representation. I made that for quick testings, but, i guess i now have to think about the "simulation" side. For example, you can't yet simulate reverberation, diffraction, etc... just isotropic emmiters, with a Frequency, a Phase, and an Amplitude (which you can tweak). You also can try to move them around, but, beware, the selector is a ring-buffer, so using it is a pain in the ass.
+      </p>
+      <p>
+        UI design is ongoing. Have fun!
+      </p>
+    </div>
+    <div id="video">
+      <h1>Simple interference pattern visualisation tool</h1>
+      <p>Selection and displacement of emmitters is a rotating buffer. Click and drag to experience the true bontempi UI.</p>
+      <canvas id="canvas" width="320" height="200" >
+      </canvas>
     </div>
   </div>
+  
+  <div id="controls">
+    <div class="rangeCombo" id="generalControls"></div>
+  </div>
+  
 <script async src="js/lib.js"></script>
 </body>
 </html>
