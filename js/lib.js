@@ -46,7 +46,7 @@
           }
           break;
         default:
-          this.value = this.input.checked?"true":"false";
+          this.value = this.input.value;
           this.mon.value = this.value;
           break;
       }
