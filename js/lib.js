@@ -28,24 +28,37 @@
     this.div=document.createElement("DIV");
     this.label=document.createElement("LABEL");
 
+    this.switchVisibility = (elem) => {
+        if (elem.input.checked) {
+          this.parent.classList.add('active')
+        } else if (!elem.input.checked && elem.name === 'active') {
+          this.parent.classList.remove('active')
+        }
+    }
+
     this.changed = function(){
-      if(this.type=="checkbox")
-      {
-        this.value = this.input.checked?"true":"false";
-        this.mon.value = this.value;
-      }
-      else
-      {
-        this.value = this.input.value;
-        this.mon.value = this.value;
+      switch (this.type) {
+        case 'checkbox':
+          this.value = this.input.checked?"true":"false";
+          this.mon.value = this.value;
+          if (this.name == 'active') {
+            this.switchVisibility(this);
+          }
+          break;
+        default:
+          this.value = this.input.checked?"true":"false";
+          this.mon.value = this.value;
+          break;
       }
     };
+
     this.draw = function(){
       this.div.classList.add("inputCombo");
       this.mon.setAttribute("type", "text");
       this.mon.setAttribute("name", this.name+"_mon");
       this.mon.value = this.value;
       this.mon.classList.add("mon_input");
+
 
       this.label.setAttribute("for", this.name);
       this.label.innerHTML = this.text;
@@ -70,12 +83,15 @@
         this.input.addEventListener(this.eventId, callback.bind(this));
         this.div.appendChild(this.label);
         this.div.appendChild(this.input);
+      
+      this.switchVisibility(this);  
         break;
         default:
 
       }
-      //this.mon.addEventListener("change",function(e){ this.value=this.mon.value; this.changed();}.bind(this));
+      
       this.parent.appendChild(this.div);
+
     }
 
     this.draw();
@@ -132,7 +148,7 @@
     new emmitter(intRand(WIDTH),intRand(HEIGHT), function(){}, 0,200,15+1),
     new emmitter(intRand(WIDTH),intRand(HEIGHT), function(){}, 0,200,15+1),
   ];
-
+ 
   var CANVASOBJ = function(canvas){
     this.canvas = canvas;
     this.emmitter = 0;
