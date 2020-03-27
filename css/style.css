@@ -9,43 +9,47 @@ body {
   }
 }
 
-* {
-    box-sizing: border-box;
+#app {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: auto; 
 }
 
-#generalControls {
-  width: 50%;
-  margin: 0 0 10px 25%;
+#canvas_wrapper {
+  padding: 5px;
+  width: 56%;
+  padding: 0 2% 2%;
+  border: 1px solid #888;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 
-
-.minimize {
-  width: 30px;
-  height: 30px;
-  overflow: hidden;
-  position: absolute;
-  top: 1em;
-  right: 1em;
+#controls {
+  width: 39%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 
-.minimize:after {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  content: "🛈";
-  top: 0;
-  font-size: 1.9em;
-  line-height: 1em;
+#video,
+#infos {
+  width: 100%;
 }
 
 .rangeCombo {
   border: 1px solid #888;
   border-radius: 5px;
-  box-sizing: border-box;
-  width: 49%;
   margin-bottom: 1%;
-  padding: 15px;
-  display: inline-block;
+  padding: 2% 4%;
+  width: 90%;
+  margin-left: 2%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
   transition: all .2s linear;
 }
 
@@ -61,7 +65,6 @@ body {
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  will-change: transform;
   transition: max-height .2s linear;
 }
 
@@ -81,9 +84,6 @@ body {
   max-height: 32px;
 }
 
-.rangeCombo:nth-child(2n+1) {
-  margin-left: 1%;
-}
 .inputCombo {
   display: flex;
   justify-content: space-between;
@@ -171,23 +171,10 @@ body {
   left: 43px;
 }
 
-#canvas_wrapper {
-  position: relative;
-  padding: 5px;
-  width: 1024px;
-  clear:both;
-  border: 1px solid #888;
-  border-radius: 5px;
-  box-sizing: border-box;
-  margin: auto;
-  margin-bottom: 10px;
-}
 #video canvas{
   display: block;
   margin: 10px auto;
-  padding: 5px;
-  border: 1px solid #888;
-  width:90%;
+  width: 100%;
 }
 
 #title {
@@ -197,13 +184,6 @@ body {
   border: 1px solid #888;
   border-radius: 5px;
   box-sizing: border-box;
-  margin: auto;
-}
-#controls {
-  width: 600px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   margin: auto;
 }
 
