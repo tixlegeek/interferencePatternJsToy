@@ -6,7 +6,7 @@
   var globalrate=0.01;
   var drawNullPattern = false;
   var nullPatternWidth = 2;
-
+  var bwh = 5;
   var canvas =  document.getElementById('canvas');
 
   var WIDTH = canvas.width;
@@ -29,26 +29,26 @@
     this.label=document.createElement("LABEL");
 
     this.switchVisibility = (elem) => {
-        if (elem.input.checked) {
-          this.parent.classList.add('active')
-        } else if (!elem.input.checked && elem.name === 'active') {
-          this.parent.classList.remove('active')
-        }
+      if (elem.input.checked) {
+        this.parent.div.classList.add('active')
+      } else if (!elem.input.checked && elem.name === 'active') {
+        this.parent.div.classList.remove('active')
+      }
     }
 
     this.changed = function(){
       switch (this.type) {
         case 'checkbox':
-          this.value = this.input.checked?"true":"false";
-          this.mon.value = this.value;
-          if (this.name == 'active') {
-            this.switchVisibility(this);
-          }
-          break;
+        this.value = this.input.checked?"true":"false";
+        this.mon.value = this.value;
+        if (this.name == 'active') {
+          this.switchVisibility(this);
+        }
+        break;
         default:
-          this.value = this.input.value;
-          this.mon.value = this.value;
-          break;
+        this.value = this.input.value;
+        this.mon.value = this.value;
+        break;
       }
     };
 
@@ -72,6 +72,10 @@
         this.input.setAttribute("step", this.args.step || 1);
         this.input.value = this.value;
         this.input.addEventListener(this.eventId, callback.bind(this));
+        this.mon.addEventListener("keyup", function(e){ this.parent[this.name] = this.input.value = this.mon.value;this.changed(); }.bind(this));
+        // update the slider from mon input.
+
+
         this.div.appendChild(this.label);
         this.div.appendChild(this.input);
         this.div.appendChild(this.mon);
@@ -83,17 +87,18 @@
         this.input.addEventListener(this.eventId, callback.bind(this));
         this.div.appendChild(this.label);
         this.div.appendChild(this.input);
-        this.switchVisibility(this);  
+        this.switchVisibility(this);
         break;
         default:
 
       }
-      
-      this.parent.appendChild(this.div);
+
 
     }
 
     this.draw();
+    if(this.parent.div)
+    this.parent.div.appendChild(this.div);
     return this;
   };
   var emmitter = function(x,y,step, phase=0, f=100, a=50, active=false){
@@ -104,8 +109,8 @@
     this.a = a;
     this.phase = phase;
     this.step = step;
-        this.d = 0;
-
+    this.d = 0;
+    this.hl = false;
     this.animate = false;
     this.offset = 0;
     this.checked = active;
@@ -123,14 +128,20 @@
     this.drawControls = function(){
       var self=this;
       this.div.classList.add("rangeCombo");
-      new control(this.div,"checkbox",this.checked, {},"active","Activate :", "click",function(e){self.checked = this.value = this.input.checked;this.changed();});
-      new control(this.div,"checkbox",this.animate, {},"animate","Animated :", "click",function(e){self.animate = this.value = this.input.checked;this.changed();});
-      new control(this.div,"range",this.f, {max:500, min:1, step:0.5},"freq","Frequency :", "input",function(e){self.f = this.input.value * 1;this.changed();});
-      new control(this.div,"range",this.phase, {max:2*Math.PI*100, min:0, step:0.05},"phas","Phase :", "input",function(e){self.phase = this.input.value * 1;this.changed();});
-      new control(this.div,"range",this.a, {max:100, min:0, step:1},"ampl","Amplification :", "input",function(e){self.a = this.input.value * 1;this.changed();});
+      new control(this,"checkbox",this.checked, {},"active","Activate :", "click",function(e){self.checked = this.value = this.input.checked;this.changed();});
+      new control(this,"checkbox",this.animate, {},"animate","Animated :", "click",function(e){self.animate = this.value = this.input.checked;this.changed();});
+      new control(this,"range",this.f, {max:500, min:1, step:0.5},"f","Frequency :", "input",function(e){self.f = this.input.value * 1;this.changed();});
+      new control(this,"range",this.phase, {max:2*Math.PI*100, min:0, step:0.05},"phase","Phase :", "input",function(e){self.phase = this.input.value * 1;this.changed();});
+      new control(this,"range",this.a, {max:100, min:0, step:1},"a","Amplification :", "input",function(e){self.a = this.input.value * 1;this.changed();});
       document.getElementById("controls").appendChild(this.div);
     }
-
+    this.highlight = function(on=true){
+      this.hl = on;
+      if(on)
+      this.div.classList.add("selectedCombo");
+      else
+      this.div.classList.remove("selectedCombo");
+    }
     this.drawControls();
     return this;
   }
@@ -147,7 +158,7 @@
     new emmitter(intRand(WIDTH),intRand(HEIGHT), function(){}, 0,200,15+1),
     new emmitter(intRand(WIDTH),intRand(HEIGHT), function(){}, 0,200,15+1),
   ];
- 
+
   var CANVASOBJ = function(canvas){
     this.canvas = canvas;
     this.emmitter = 0;
@@ -159,9 +170,30 @@
     this.canvas.addEventListener('mousedown', function(e){
       if(this.drawing==false)
       {
-        this.emmitter++;
-        if(this.emmitter >= emmitters.length)
-        this.emmitter=0;
+        var nearest = null;
+        var rect = this.canvas.getBoundingClientRect();
+        var x = (e.clientX - rect.left) * this.canvas.width / this.canvas.clientWidth;
+        var y = (e.clientY - rect.top) * this.canvas.height / this.canvas.clientHeight;
+        var nd = bwh<<1;
+        var ne = null;
+        // find nearest emmitter
+        for(var n  in emmitters)
+        {
+          emmitters[n].highlight(false);
+          if(emmitters[n].checked == true){
+            d =  Math.sqrt(Math.pow(x - emmitters[n].x,2)+Math.pow(y - emmitters[n].y, 2));
+            if(d<nd)
+            {
+              nd=d;
+              ne=n;
+            }
+          }
+        }
+        if(ne!=null)
+        {
+          emmitters[ne].highlight();
+        }
+        this.emmitter = ne;
         this.drawing=true;
       }
     }.bind(this));
@@ -176,8 +208,10 @@
         var rect = this.canvas.getBoundingClientRect();
         var x = (e.clientX - rect.left) * this.canvas.width / this.canvas.clientWidth;
         var y = (e.clientY - rect.top) * this.canvas.height / this.canvas.clientHeight;
-        emmitters[this.emmitter].x=x;
-        emmitters[this.emmitter].y=y;
+        if(this.emmitter!=null){
+          emmitters[this.emmitter].x=x;
+          emmitters[this.emmitter].y=y;
+        }
       }
     }.bind(this));
 
@@ -210,8 +244,8 @@
       {
         if(emmitters[j].checked)
         {
-          this.ctx.strokeStyle="#0f0";
-          this.ctx.strokeRect(emmitters[j].x-10,emmitters[j].y-10,20,20);
+          this.ctx.strokeStyle=emmitters[j].hl?"#0f0":"#f00";
+          this.ctx.strokeRect(emmitters[j].x-bwh,emmitters[j].y-bwh,bwh<<1,bwh<<1);
           this.ctx.font = "8px Monospace";
           this.ctx.fillText(emmitters[j].f+", "+Math.floor(emmitters[j].a), emmitters[j].x-10,emmitters[j].y-10 )
         }

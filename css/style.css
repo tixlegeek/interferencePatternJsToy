@@ -14,7 +14,7 @@ body {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin: auto; 
+  margin: auto;
 }
 
 #canvas_wrapper {
@@ -40,8 +40,13 @@ body {
   width: 100%;
 }
 
+.selectedCombo {
+  border: 2px solid #8aa !important;
+  background: #dff !important;
+
+}
 .rangeCombo {
-  border: 1px solid #888;
+  border: 1px solid #aaa;
   border-radius: 5px;
   margin-bottom: 1%;
   padding: 2% 4%;
