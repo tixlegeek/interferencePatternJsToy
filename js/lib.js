@@ -2,10 +2,15 @@
   var intRand = function(i){
     return Math.floor(Math.random() * Math.floor(i));
   }
-  var globaltimer=0;
-  var globalrate=0.01;
-  var drawNullPattern = false;
-  var nullPatternWidth = 2;
+
+  var globalControlScope = {
+    div: document.getElementById("generalControls"),
+    timer:0,
+    rate:0.01,
+    drawNullPattern :false,
+    nullPatternWidth :2,
+  };
+
   var bwh = 5;
   var canvas =  document.getElementById('canvas');
 
@@ -59,7 +64,7 @@
       this.mon.value = this.value;
       this.mon.classList.add("mon_input");
 
-
+control
       this.label.setAttribute("for", this.name);
       this.label.innerHTML = this.text;
 
@@ -146,9 +151,9 @@
     return this;
   }
 
-  new control(document.getElementById("generalControls"),"range",globalrate, { 'max':1,'min':-1, 'step':.01},"globalrate","Animation Rate:", "input",function(e){globalrate = this.value*1;this.changed();});
-  new control(document.getElementById("generalControls"),"checkbox",drawNullPattern, {},"drawNullPattern","Draw Null Pattern :", "click",function(e){drawNullPattern = this.value = this.input.checked;this.changed();});
-  new control(document.getElementById("generalControls"),"range",nullPatternWidth, { 'max':20,'min':1, 'step':.01},"drawNullPatternTrigz","Null Pattern width :", "input",function(e){nullPatternWidth = this.value*1;this.changed();});
+  new control(globalControlScope,"range",globalControlScope.rate, { 'max':1,'min':-1, 'step':.01},"globalControlScope.rate","Animation Rate:", "input",function(e){globalControlScope.rate = this.value*1;this.changed();});
+  new control(globalControlScope,"checkbox",globalControlScope.drawNullPattern, {},"globalControlScope.drawNullPattern","Draw Null Pattern :", "click",function(e){globalControlScope.drawNullPattern = this.value = this.input.checked;this.changed();});
+  new control(globalControlScope,"range",globalControlScope.nullPatternWidth, { 'max':20,'min':1, 'step':.01},"globalControlScope.drawNullPatternTrigz","Null Pattern width :", "input",function(e){globalControlScope.nullPatternWidth = this.value*1;this.changed();});
 
   var emmitters = [
     new emmitter(intRand(WIDTH),intRand(HEIGHT), function(){}, 0,200,15, true),
@@ -250,7 +255,7 @@
           this.ctx.fillText(emmitters[j].f+", "+Math.floor(emmitters[j].a), emmitters[j].x-10,emmitters[j].y-10 )
         }
       }
-      globaltimer+=globalrate;
+      globalControlScope.timer+=globalControlScope.rate;
       requestAnimationFrame(this.render.bind(this));
     }
     return this;
@@ -267,7 +272,7 @@
     {
       if(emmitters[j].checked)
       {
-        var offset = (emmitters[j].animate)?globaltimer:0;
+        var offset = (emmitters[j].animate)?globalControlScope.timer:0;
         emmitters[j].d = Math.sqrt(Math.pow(x - emmitters[j].x,2)+Math.pow(y - emmitters[j].y, 2));
         var ca = (Math.sin(emmitters[j].d*(emmitters[j].f/1000)-((emmitters[j].phase/100) + offset)));
         c += ca*(1/emmitters[j].d*emmitters[j].a);
@@ -275,7 +280,7 @@
     }
     c = (c*127)+127;
     data[i+0]= c;
-    data[i+1]= (c>127-nullPatternWidth&&c<127+nullPatternWidth&&drawNullPattern)?255:c;
+    data[i+1]= (c>127-globalControlScope.nullPatternWidth&&c<127+globalControlScope.nullPatternWidth&&globalControlScope.drawNullPattern)?255:c;
     data[i+2]= c;
   }
   var cnv = new CANVASOBJ(canvas);
