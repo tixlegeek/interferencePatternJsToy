@@ -64,7 +64,6 @@
       this.mon.value = this.value;
       this.mon.classList.add("mon_input");
 
-control
       this.label.setAttribute("for", this.name);
       this.label.innerHTML = this.text;
 
@@ -107,6 +106,10 @@ control
     return this;
   };
   var emmitter = function(x,y,step, phase=0, f=100, a=50, active=false){
+    
+    // set default value to highlight
+    let hightlightStatus = true;
+    
     this.x = x;
     this.y = y;
 
@@ -140,9 +143,9 @@ control
       new control(this,"range",this.a, {max:100, min:0, step:1},"a","Amplification :", "input",function(e){self.a = this.input.value * 1;this.changed();});
       document.getElementById("controls").appendChild(this.div);
     }
-    this.highlight = function(on=true){
-      this.hl = on;
-      if(on)
+    this.highlight = function(hightlightStatus){
+      this.hl = hightlightStatus;
+      if(hightlightStatus)
       this.div.classList.add("selectedCombo");
       else
       this.div.classList.remove("selectedCombo");
