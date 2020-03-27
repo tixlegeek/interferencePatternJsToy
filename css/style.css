@@ -5,7 +5,7 @@ body {
 }
 @media (min-width: 600px) {
   body {
-    padding: 60px;
+    padding: 30px 60px;
   }
 }
 
@@ -65,6 +65,7 @@ body {
   max-height: 0;
   opacity: 0;
   overflow: hidden;
+  margin-bottom: 0;
   transition: max-height .2s linear;
 }
 
@@ -78,6 +79,7 @@ body {
 .rangeCombo.active > .inputCombo {
   max-height: 32px;
   opacity: 1;
+  margin-bottom: 5px;
 }
 
 .rangeCombo.active > .inputCombo:first-child {
@@ -95,7 +97,7 @@ body {
 }
 
 .inputCombo label {
-  width: 200px;
+  width: 265px;
 }
 .inputCombo  input[type=text] {
   margin-left: 10px;
@@ -274,4 +276,19 @@ input[type=text]:after {
 input::-moz-focus-inner,
 input::-moz-focus-outer {
   border: 0;
+}
+
+@media (max-width: 800px) {
+  #canvas_wrapper {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  #controls {
+    width: 100%;
+  }
+  .rangeCombo {
+    margin-left: 0;
+    width: 92%;
+  }
 }
