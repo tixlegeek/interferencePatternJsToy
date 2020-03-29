@@ -1,17 +1,18 @@
 
 body {
   font-family: sans-serif;
-  padding: 60px 20px;
   background: #d8dfe2;
 }
 @media (min-width: 600px) {
   body {
-    padding: 30px 60px;
+    padding: 30px 4%;
   }
 }
 
 h1 {
   margin: 20px auto 40px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #c4ced2;
 }
 
 #app {
@@ -23,12 +24,12 @@ h1 {
 }
 
 #canvas_wrapper {
-  width: 59%;
-  padding: 2% 4% 2%;
+  width: 55%;
+  padding: 3% 6% 5%;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  background: transparent;
+  background: #e5ecef;
   box-shadow: 6px 6px 14px 0 rgba(0, 0, 0, 0.2),
     -8px -8px 18px 0 rgba(255, 255, 255, 0.55);
   border-radius: 40px;
@@ -54,7 +55,7 @@ h1 {
 }
 .rangeCombo {
   margin-bottom: 5%;
-  padding: 4% 6%;
+  padding: 3% 6%;
   width: 84%;
   margin-left: 8%;
   display: flex;
@@ -64,7 +65,7 @@ h1 {
    background: #f5fcff;
   box-shadow: 6px 6px 14px 0 rgba(0, 0, 0, 0.2),
     -8px -8px 18px 0 rgba(255, 255, 255, 0.55);
-  border-radius: 40px;
+  border-radius: 28px;
 }
 
 .rangeCombo:not(.active) {
@@ -94,7 +95,6 @@ h1 {
 .rangeCombo.active > .inputCombo {
   max-height: 32px;
   opacity: 1;
-  margin-bottom: 5px;
 }
 
 .rangeCombo.active > .inputCombo:first-child {
@@ -112,8 +112,12 @@ h1 {
 }
 
 .inputCombo label {
-  width: 265px;
+  width: 44%;
   font-size: 0.9em;
+  white-space: nowrap;
+}
+#generalControls .inputCombo label {
+  width: 70%;
 }
 .inputCombo  input[type=text] {
   margin-left: 10px;
@@ -191,8 +195,9 @@ h1 {
 
 #video canvas{
   display: block;
-  margin: 10px auto;
+  margin: 0 auto 40px;
   width: 100%;
+  border-radius: 5px;
 }
 
 #title {
@@ -294,6 +299,13 @@ input::-moz-focus-outer {
   border: 0;
 }
 
+
+@media (max-width: 1100px) {
+  .rangeCombo {
+    font-size: 0.8em;
+  }
+}
+
 @media (max-width: 800px) {
   #canvas_wrapper {
     width: 100%;
@@ -306,5 +318,6 @@ input::-moz-focus-outer {
   .rangeCombo {
     margin-left: 0;
     width: 92%;
+    font-size: 1em;
   }
 }
