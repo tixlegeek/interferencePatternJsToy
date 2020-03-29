@@ -2,11 +2,16 @@
 body {
   font-family: sans-serif;
   padding: 60px 20px;
+  background: #d8dfe2;
 }
 @media (min-width: 600px) {
   body {
     padding: 30px 60px;
   }
+}
+
+h1 {
+  margin: 20px auto 40px;
 }
 
 #app {
@@ -18,21 +23,23 @@ body {
 }
 
 #canvas_wrapper {
-  padding: 5px;
-  width: 56%;
-  padding: 0 2% 2%;
-  border: 1px solid #888;
-  border-radius: 5px;
+  width: 59%;
+  padding: 2% 4% 2%;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  background: transparent;
+  box-shadow: 6px 6px 14px 0 rgba(0, 0, 0, 0.2),
+    -8px -8px 18px 0 rgba(255, 255, 255, 0.55);
+  border-radius: 40px;
 }
 
 #controls {
-  width: 39%;
+  width: 32%;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  margin-top: 15px;
 }
 
 #video,
@@ -46,16 +53,18 @@ body {
 
 }
 .rangeCombo {
-  border: 1px solid #aaa;
-  border-radius: 5px;
-  margin-bottom: 1%;
-  padding: 2% 4%;
-  width: 90%;
-  margin-left: 2%;
+  margin-bottom: 5%;
+  padding: 4% 6%;
+  width: 84%;
+  margin-left: 8%;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   transition: all .2s linear;
+   background: #f5fcff;
+  box-shadow: 6px 6px 14px 0 rgba(0, 0, 0, 0.2),
+    -8px -8px 18px 0 rgba(255, 255, 255, 0.55);
+  border-radius: 40px;
 }
 
 .rangeCombo:not(.active) {
@@ -71,6 +80,7 @@ body {
   opacity: 0;
   overflow: hidden;
   margin-bottom: 0;
+  line-height: 2em;
   transition: max-height .2s linear;
 }
 
@@ -103,6 +113,7 @@ body {
 
 .inputCombo label {
   width: 265px;
+  font-size: 0.9em;
 }
 .inputCombo  input[type=text] {
   margin-left: 10px;
@@ -207,7 +218,7 @@ input[type=range] {
   width: calc(100% - (73px));
   height: 10px;
   border-radius: 5px;
-  background: #d7dcdf;
+  background: #92afc1;
   outline: none;
   padding: 0;
   margin: 0;
