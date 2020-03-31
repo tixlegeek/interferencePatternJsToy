@@ -154,8 +154,8 @@
     return this;
   }
 
-  new control(globalControlScope,"range",globalControlScope.rate, { 'max':1,'min':-1, 'step':.01},"globalControlScope.rate","Animation Rate:", "input",function(e){globalControlScope.rate = this.value*1;this.changed();});
   new control(globalControlScope,"checkbox",globalControlScope.drawNullPattern, {},"globalControlScope.drawNullPattern","Draw Null Pattern :", "click",function(e){globalControlScope.drawNullPattern = this.value = this.input.checked;this.changed();});
+  new control(globalControlScope,"range",globalControlScope.rate, { 'max':1,'min':-1, 'step':.01},"globalControlScope.rate","Animation Rate:", "input",function(e){globalControlScope.rate = this.value*1;this.changed();});
   new control(globalControlScope,"range",globalControlScope.nullPatternWidth, { 'max':20,'min':1, 'step':.01},"globalControlScope.drawNullPatternTrigz","Null Pattern width :", "input",function(e){globalControlScope.nullPatternWidth = this.value*1;this.changed();});
 
   var emmitters = [
