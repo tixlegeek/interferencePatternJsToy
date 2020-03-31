@@ -4,13 +4,18 @@ Simple and dirty JS toy which lets you play with interference patterns.
 
 ---
 
- [@tixlegeek](https://twitter.com/tixlegeek) - [tixlegeek.io](https://tixlegeek.io) - The twitter discussion following the dev: [Here](https://twitter.com/tixlegeek/status/1235567463636570112)
+ [@tixlegeek](https://twitter.com/tixlegeek) - [tixlegeek.io](https://tixlegeek.io) - [Github](https://github.com/tixlegeek/interferencePatternJsToy) - The twitter discussion following the dev: [Here](https://twitter.com/tixlegeek/status/1235567463636570112) 
+
+**Big thanks to:**
+
+- [@Jeffwebdesign](https://twitter.com/Jeffwebdesign) ( [jffraisse](https://github.com/jffraisse) ) for the work on the UI and Web Integration!
 
 Copyright (c) 2020 Tixlegeek (MIT, see LICENSE ) - You can do whatever you want with that code.
 
 ---
 
 See online demo [Here](https://tixlegeek.io/interference/)! 
+
 
 ![tree emitter interference](README.assets/image01.png)
 
@@ -20,6 +25,10 @@ See online demo [Here](https://tixlegeek.io/interference/)!
 
 ![drawing null pattern](README.assets/image04.png)
 
+Here's a screen-shot:
+
+![screenshot](README.assets/screenshot.png)
+
 ## About the code
 
 This code have been initiated on 05-03-2020. It has been coded in a jiffy. It's pure vanilla JS, without any dependency or hardware magic. 
@@ -28,7 +37,7 @@ This code have been initiated on 05-03-2020. It has been coded in a jiffy. It's 
 
 This is not a physics-accurate simulation. The results are approximated following simple statements:
 
-* Each emmitters have parameters that you can set:
+* Each emitters have parameters that you can set:
 
   * Frequency
   * Phase
@@ -56,7 +65,11 @@ In some words: You cannot simulate refraction/diffraction/etc. It's mostly just 
 
 # About the UI
 
-The UI is awful for now, but some people offered to try their magic on this thing. I only needed this for myself, and did not planned to share it, so i did not made any efforts about that.
+> The UI is awful for now, but some people offered to try their magic on this thing. I only needed this for myself, and did not planned to share it, so i did not made any efforts about that.
+
+WEB Integration and UI has been fiddled and enhanced by [jffraisse](https://github.com/jffraisse) as the original UI was... brutal. I also modified the emitter selection. You can now select like on any other UI.
+
+Here is the old UI for records:
 
 ![image-20200306133658929](README.assets/image-20200306133658929.png)
 
